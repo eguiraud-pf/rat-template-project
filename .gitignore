@@ -1,0 +1,16 @@
+*~
+
+# Ignore the build and lib dirs
+old/*
+
+# Ignore any executables
+bin/*
+build/*
+debug/*
+release/*
+
+# ignore datasets
+data/*
+
+# mac dsstore
+.DS_Store
