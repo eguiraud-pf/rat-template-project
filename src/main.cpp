@@ -50,16 +50,12 @@ int main(){
 	rat::mdl::ShModelCoilPr coil = rat::mdl::ModelCoil::create(circle, rectangle);
 	coil->set_number_turns(num_turns);
 	coil->set_operating_current(operating_current);
-
-	// create model settings
-	rat::mdl::ShSettingsPr mdl_stngs = rat::mdl::Settings::create();
-	mdl_stngs->set_model_name("solenoid");
-	mdl_stngs->enable_all();
+	coil->set_num_gauss(3);
 	
 	// create a source representation for the coil and set them up
 	rat::mdl::ShCalcMeshPr mesh = rat::mdl::CalcMesh::create(coil, coil);
-	mesh->set_mdl_settings(mdl_stngs);
+	mesh->set_output_fname("solenoid");
 
 	// perform calculation and write output file
-	mesh->calculate(lg); mesh->write(lg);
+	mesh->calculate_and_write(lg);
 }
