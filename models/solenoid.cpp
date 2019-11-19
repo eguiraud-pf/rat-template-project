@@ -1,4 +1,4 @@
-/* MagRat - A heavilly vectorised and parallelised 
+/* Rat - A heavilly vectorised and parallelised 
 implementation of the Multi-Level Fast Multipole Method (MLFMM).
 Copyright (C) 2017  Jeroen van Nugteren
 

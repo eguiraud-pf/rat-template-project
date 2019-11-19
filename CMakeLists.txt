@@ -119,3 +119,6 @@ include_directories(include)
 
 # multipole-method library
 add_subdirectory(src)
+
+# compile models
+add_subdirectory(models)
