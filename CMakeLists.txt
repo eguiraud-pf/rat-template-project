@@ -50,35 +50,45 @@ endif()
 
 # CUDA GPU Kernels
 if(ENABLE_CUDA)
-	# enable cuda
-	enable_language(CUDA)
-	
 	# check if cuda available
 	include(CheckLanguage)
 	check_language(CUDA)
 
-	# check if nvidia
-	if(CMAKE_CUDA_COMPILER_ID STREQUAL "NVIDIA")
-		# inform user
-		message(STATUS "CUDA found, building GPU kernels.")
+	# check if any cuda compiler found
+	if(CMAKE_CUDA_COMPILER)
+		# enable cuda language
+		enable_language(CUDA)
 
-		# set standard
-		if(NOT DEFINED CMAKE_CUDA_STANDARD)
-		    set(CMAKE_CUDA_STANDARD 11)
-		    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+		# check if nvidia
+		if(CMAKE_CUDA_COMPILER_ID STREQUAL "NVIDIA")
+			# inform user
+			message(STATUS "CUDA found, building GPU kernels.")
+
+			# compiler flags
+			set(CUDA_NVCC_FLAGS "-O3")
+
+			# set standard
+			if(NOT DEFINED CMAKE_CUDA_STANDARD)
+			    set(CMAKE_CUDA_STANDARD 11)
+			    set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+			endif()
+
+			# set libraries specific to cuda
+			set(CUDA_LIBRARIES -lcublas -lcurand)
+
+			# add to libraries to be linked to mlfmm
+			set(LIBS ${LIBS} ${CUDA_LIBRARIES})
+
+			# let cpp know that cuda kernels are available
+			set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_CUDA_KERNELS")
+		else()
+			message(STATUS "CUDA found but not NVIDIA.")
 		endif()
-
-		# set libraries specific to cuda
-		set(CUDA_LIBRARIES -lcublas)
-
-		# add to libraries to be linked to mlfmm
-		set(LIBS ${LIBS} ${CUDA_LIBRARIES})
-
-		# let cpp know that cuda kernels are available
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DENABLE_CUDA_KERNELS")
 	else()
 		message(STATUS "CUDA not found.")
 	endif()
+else()
+	message(STATUS "CUDA disabled.")
 endif()
 
 # visualisation toolkit
