@@ -2,11 +2,6 @@
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 project(Rat-Template VERSION 1.0.0 LANGUAGES CXX)
 
-# switchboard
-option(ENABLE_TESTING "Build unit/system tests" ON)
-option(ENABLE_EXAMPLES "Build examples" ON)
-option(ENABLE_CUDA "Build with CUDA GPU acceleration" ON)
-
 # set build type
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
