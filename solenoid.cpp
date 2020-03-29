@@ -16,13 +16,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 // header files for common
-#include "common/log.hh"
+#include "rat/common/log.hh"
 
 // header files for model
-#include "models/pathcircle.hh"
-#include "models/crossrectangle.hh"
-#include "models/modelcoil.hh"
-#include "models/calcmesh.hh"
+#include "rat/models/pathcircle.hh"
+#include "rat/models/crossrectangle.hh"
+#include "rat/models/modelcoil.hh"
+#include "rat/models/calcmesh.hh"
 
 // main
 int main(){
