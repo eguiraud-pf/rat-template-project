@@ -55,7 +55,10 @@ int main(){
 	// create a source representation for the coil and set them up
 	rat::mdl::ShCalcMeshPr mesh = rat::mdl::CalcMesh::create(coil, coil);
 	mesh->set_output_fname("solenoid");
+	mesh->set_output_dir("./output/");		
+	mesh->set_output_type(rat::mdl::ALL);
 
 	// perform calculation and write output file
-	mesh->calculate_and_write(lg);
+	mesh->calculate(lg);
+	mesh->write(lg);
 }
