@@ -8,6 +8,7 @@ bin/*
 build/*
 debug/*
 release/*
+output/*
 
 # ignore datasets
 data/*
