@@ -1,6 +1,6 @@
 ## PROJECT SETUP
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-project(Rat-Template VERSION 1.0.0 LANGUAGES CXX)
+project(Rat-Template VERSION 1.100.0 LANGUAGES CXX)
 
 # set build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -15,7 +15,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # find rat-models library
-find_package(RatModels)
+find_package(RatModels 1.100.0 REQUIRED)
 
 # set the model
 add_executable(solenoid solenoid.cpp)
