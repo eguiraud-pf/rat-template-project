@@ -1,19 +1,24 @@
-/* Rat - A heavilly vectorised and parallelised 
-implementation of the Multi-Level Fast Multipole Method (MLFMM).
-Copyright (C) 2017  Jeroen van Nugteren
+// Copyright 2022 Jeroen van Nugteren
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software
+// and associated documentation files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+// The above copyright notice and this permission notice shall be included in all copies or
+// substantial portions of the Software.
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS
+// OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+// DESCRIPTION
+// Minimalist example of a solenoid model
 
 // header files for common
 #include "rat/common/log.hh"
@@ -22,16 +27,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 #include "rat/models/pathcircle.hh"
 #include "rat/models/crossrectangle.hh"
 #include "rat/models/modelcoil.hh"
-#include "rat/models/calcmesh.hh"
-#include "rat/models/modelmlfmm.hh"
+#include "rat/models/calcmlfmm.hh"
 
-// main
+// main function
 int main(){
 	// model geometric input parameters
-	const rat::fltp radius = RAT_CONST(40e-3); // coil inner radius [m]
-	const rat::fltp dcoil = RAT_CONST(10e-3); // thickness of the coil [m]
-	const rat::fltp wcable = RAT_CONST(12e-3); // width of the cable [m]
-	const rat::fltp delem = RAT_CONST(2e-3); // element size [m]
+	const rat::fltp time = 0; // output time [s]
+	const rat::fltp radius = 40e-3; // coil inner radius [m]
+	const rat::fltp dcoil = 10e-3; // thickness of the coil [m]
+	const rat::fltp wcable = 12e-3; // width of the cable [m]
+	const rat::fltp delem = 1e-3; // element size [m]
 	const arma::uword num_sections = 4; // number of coil sections
 
 	// model operating parameters
@@ -39,7 +44,7 @@ int main(){
 	const arma::uword num_turns = 100; // number of turns
 
 	// create logger
-	rat::cmn::ShLogPr lg = rat::cmn::Log::create();
+	rat::cmn::ShLogPr lg = rat::cmn::Log::create(rat::cmn::Log::LogoType::RAT);
 
 	// create a circular path object
 	rat::mdl::ShPathCirclePr circle = rat::mdl::PathCircle::create(radius, num_sections, delem);
@@ -52,12 +57,11 @@ int main(){
 	rat::mdl::ShModelCoilPr coil = rat::mdl::ModelCoil::create(circle, rectangle);
 	coil->set_number_turns(num_turns);
 	coil->set_operating_current(operating_current);
-	
+
 	// create calculation
-	rat::mdl::ShModelMlfmmPr mlfmm = rat::mdl::ModelMlfmm::create(coil);
-	mlfmm->set_output_dir("./solenoid/");
+	rat::mdl::ShCalcMlfmmPr mlfmm = rat::mdl::CalcMlfmm::create(coil);
 	mlfmm->set_target_meshes(); // calculates field on surface
-	
+
 	// calculate everything
-	mlfmm->calculate(lg);
+	mlfmm->calculate_write({time},"./data/",lg);
 }
