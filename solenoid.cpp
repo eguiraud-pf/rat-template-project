@@ -16,9 +16,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 // DESCRIPTION
 // Minimalist example of a solenoid model
+
+// command line parser
+#include <tclap/CmdLine.h>
 
 // header files for common
 #include "rat/common/log.hh"
@@ -27,10 +29,20 @@
 #include "rat/models/pathcircle.hh"
 #include "rat/models/crossrectangle.hh"
 #include "rat/models/modelcoil.hh"
-#include "rat/models/calcmlfmm.hh"
+#include "rat/models/calcmesh.hh"
 
 // main function
-int main(){
+int main(int argc, char *argv[]){
+	// create tclap object
+	TCLAP::CmdLine cmd("Template",' ',"myversion");
+
+	// filename input argument
+	TCLAP::ValueArg<std::string> output_path_argument(
+		"","od","output directory",false,"./data","string",cmd);
+
+	// parse the command line arguments
+	cmd.parse(argc, argv);
+
 	// model geometric input parameters
 	const rat::fltp time = 0; // output time [s]
 	const rat::fltp radius = 40e-3; // coil inner radius [m]
@@ -44,24 +56,23 @@ int main(){
 	const arma::uword num_turns = 100; // number of turns
 
 	// create logger
-	rat::cmn::ShLogPr lg = rat::cmn::Log::create(rat::cmn::Log::LogoType::RAT);
+	const rat::cmn::ShLogPr lg = rat::cmn::Log::create(rat::cmn::Log::LogoType::RAT);
 
 	// create a circular path object
-	rat::mdl::ShPathCirclePr circle = rat::mdl::PathCircle::create(radius, num_sections, delem);
+	const rat::mdl::ShPathCirclePr circle = rat::mdl::PathCircle::create(radius, num_sections, delem);
 	circle->set_offset(dcoil);
 
 	// create a rectangular cross section object
 	rat::mdl::ShCrossRectanglePr rectangle = rat::mdl::CrossRectangle::create(0, dcoil, 0, wcable, delem);
 
 	// create a coil object
-	rat::mdl::ShModelCoilPr coil = rat::mdl::ModelCoil::create(circle, rectangle);
+	const rat::mdl::ShModelCoilPr coil = rat::mdl::ModelCoil::create(circle, rectangle);
 	coil->set_number_turns(num_turns);
 	coil->set_operating_current(operating_current);
 
 	// create calculation
-	rat::mdl::ShCalcMlfmmPr mlfmm = rat::mdl::CalcMlfmm::create(coil);
-	mlfmm->set_target_meshes(); // calculates field on surface
+	const rat::mdl::ShCalcMeshPr mesh_calculation = rat::mdl::CalcMesh::create(coil);
 
 	// calculate everything
-	mlfmm->calculate_write({time},"./data/",lg);
+	mesh_calculation->calculate_write({time},output_path_argument.getValue(),lg);
 }
