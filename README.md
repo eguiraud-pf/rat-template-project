@@ -18,3 +18,6 @@ To run the solenoid model that is part of this template run the following comman
 ```
 
 The paraview files will be stored in the ./mydata directory.
+
+## License
+This is free and unencumbered software released into the public domain.
