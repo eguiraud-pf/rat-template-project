@@ -1,6 +1,6 @@
 ## PROJECT SETUP
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-project(Rat-Template VERSION 2.016.4 LANGUAGES CXX)
+project(Rat-Template VERSION 2.017.0 LANGUAGES CXX)
 
 # ensure out of core build
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
