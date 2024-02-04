@@ -1,6 +1,6 @@
 ## PROJECT SETUP
 cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
-project(Rat-Template VERSION 2.017.0 LANGUAGES CXX)
+project(Rat-Template VERSION 2.017.2 LANGUAGES CXX)
 
 # ensure out of core build
 if(PROJECT_SOURCE_DIR STREQUAL PROJECT_BINARY_DIR)
@@ -41,7 +41,7 @@ if(NOT DEFINED CMAKE_RUNTIME_OUTPUT_DIRECTORY AND NOT DEFINED CMAKE_LIBRARY_OUTP
 endif()
 
 # find rat-models library
-find_package(RatModels 2.016.4 REQUIRED)
+find_package(RatModels 2.017.2 REQUIRED)
 
 # set the model
 add_executable(solenoid solenoid.cpp)
