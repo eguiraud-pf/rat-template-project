@@ -1,9 +1,15 @@
 ![Logo](./figs/RATLogo.png)
-# Template for C++ API
+
+# Template project for Rat's C++ API
 <em>Good starting point for beginner, yes?</em>
 
+Based on the original https://gitlab.com/Project-Rat/rat-template, adds a devcontainer with RAT pre-installed.
+
 ## Installation
-This template allows you to get started with the Rat libraries. It already contains the CMake file and a simple example so that you can get started more easily. To build the example file run the following commands in the terminal:
+This template allows you to get started with the Rat libraries.
+It already contains the CMake file and a simple example so that you can get started more easily.
+To build the example file run the following commands in the terminal:
+
 ```bash
 cd rat-template
 mkdir build
@@ -18,6 +24,3 @@ To run the solenoid model that is part of this template run the following comman
 ```
 
 The paraview files will be stored in the ./mydata directory.
-
-## License
-This is free and unencumbered software released into the public domain.
